@@ -3,14 +3,18 @@ package com.example.canvas;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 
 public class MainActivity extends AppCompatActivity {
@@ -26,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
     private static final int OFFSET = 120;
     private int theOffset = OFFSET;
     private static final int MULTIPLIER = 100;
+    private static final int COUNT = 5;
+    private int count = 0;
 
     private int colorBackground;
     private int colorRectangle;
@@ -51,6 +57,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 drawSomething(v);
+                count++;
+
             }
         });
 
@@ -62,44 +70,53 @@ public class MainActivity extends AppCompatActivity {
         int halfWidth = width/2;
         int halfHeight = height/2;
 
-        if (theOffset == OFFSET){
+        if (count == 0){
             theBitmap = Bitmap.createBitmap(width,height, Bitmap.Config.ARGB_8888);
             imageView.setImageBitmap(theBitmap);
             theCanvas = new Canvas(theBitmap);
 
-            theCanvas.drawColor(colorBackground);
+//            theCanvas.drawColor(colorBackground);
             theCanvas.drawText(getString(R.string.keepTapping),100,100,paintText);
-            theOffset += OFFSET;
-        }else{
-            if(theOffset < halfWidth && theOffset < halfHeight){
-                thePaint.setColor(colorRectangle - MULTIPLIER * theOffset);
-                rect.set(theOffset,theOffset,width-theOffset,height-theOffset);
-                theCanvas.drawRect(rect,thePaint);
-                theOffset += OFFSET;
-            }else{
-                thePaint.setColor(colorAccent - MULTIPLIER * theOffset);
-                theCanvas.drawCircle(halfWidth,halfHeight,halfWidth/3,thePaint);
-                theOffset += OFFSET;
-                Point a = new Point(halfWidth - 50, halfHeight - 50);
-                Point b = new Point(halfWidth + 50, halfHeight - 50);
-                Point c = new Point(halfWidth , halfHeight + 250);
-                Path path = new Path();
-                path.setFillType(Path.FillType.EVEN_ODD);
-                path.lineTo(a.x,a.y);
-                path.lineTo(b.x,b.y);
-                path.lineTo(c.x,c.y);
-                path.lineTo(a.x,a.y);
-                path.close();
 
-                thePaint.setColor(colorRectangle - MULTIPLIER * theOffset);
-                theCanvas.drawPath(path,thePaint);
-//                String text = getString(R.string.done);
-//                paintText.getTextBounds(text,0, text.length(),bounds);
-//                int x = halfWidth - bounds.centerX();
-//                int y = halfHeight - bounds.centerY();
-//                theCanvas.drawText(text,x,y,paintText);
-            }
+            System.out.println("count : "+count);}
+         if(count == 1 ){
+            thePaint.setColor(getResources().getColor(R.color.newBackground));
+             rect.set(0,0,width,height);
+             theCanvas.drawRect(rect,thePaint);
+
+
+            System.out.println("count : "+count);}
+        if(count == 2){
+            System.out.println("count : "+count);
+            thePaint.setColor(getResources().getColor(R.color.yellow));
+            theCanvas.drawCircle(width/2, height/2, width/3, thePaint);
+
+            thePaint.setColor(Color.BLACK);
+            thePaint.setStyle(Paint.Style.STROKE);
+            thePaint.setStrokeWidth(8);
+            theCanvas.drawCircle(width/2, height/2, width/3, thePaint);
+
+            thePaint.setStyle(Paint.Style.FILL_AND_STROKE);
         }
+        if(count == 3){
+            thePaint.setColor(Color.BLACK);
+            theCanvas.drawCircle(width/2 - width/8, height/2 - height/12, width/30, thePaint);
+            theCanvas.drawCircle(width/2 + width/8, height/2 - height/12, width/30, thePaint);
+
+            System.out.println("count : "+count);
+        }
+        if(count == 4){
+            RectF oval = new RectF(width/2 - width/4, height/2 - height/8, width/2 + width/4, height/2 + height/8);
+            thePaint.setStyle(Paint.Style.STROKE);
+            thePaint.setStrokeWidth(8);
+            theCanvas.drawArc(oval, 0, 180, true, thePaint);
+
+            System.out.println("count : "+count);
+        }
+
         view.invalidate();
+
     }
 }
+
+

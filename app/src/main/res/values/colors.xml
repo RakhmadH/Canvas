@@ -10,4 +10,6 @@
     <color name="colorRectangle">#455A64</color>
     <color name="colorBackground">#FF37</color>
     <color name="colorAccent">#FF6200EE</color>
+    <color name="newBackground">#B2EC73</color>
+    <color name="yellow">#FFE200</color>
 </resources>
